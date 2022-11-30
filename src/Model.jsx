@@ -1,12 +1,16 @@
 import React, { useEffect, useMemo } from "react";
-import { useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Loader, useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import { Mesh, MeshStandardMaterial } from "three";
 
 const Model = ({ model, modelRef, surroundingControls }) => {
   const { scene } = useGLTF(model);
   const copy = useMemo(() => scene.clone(), [scene]);
+  if (copy) {
+    useFrame((frame, delta) => {
+      modelRef.current.rotation.y += delta * 0.1;
+    });
+  }
   useEffect(() => {
     copy.traverse((obj) => {
       if (obj instanceof Mesh) {
@@ -16,7 +20,7 @@ const Model = ({ model, modelRef, surroundingControls }) => {
         return (obj.envMapIntensity = surroundingControls.intensity);
       }
     });
-  },[]);
+  }, []);
 
   return (
     <primitive

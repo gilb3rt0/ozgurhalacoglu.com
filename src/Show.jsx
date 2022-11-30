@@ -14,13 +14,8 @@ const Show = () => {
 
   const modelRef = useRef();
 
-  const { scene } = useThree();
 
-  useFrame((frame, delta) => {
-    setTimeout(() => {
-      modelRef.current.rotation.y += delta * 0.1;
-    }, 2500);
-  });
+
 
   const { showPerf } = useControls("Performance", {
     showPerf: false,
