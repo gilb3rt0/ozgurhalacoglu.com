@@ -7,16 +7,21 @@ import { Perf } from "r3f-perf";
 import Model from "./Model";
 import Loading from "./Loading";
 import Background from "./Background";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 const Show = () => {
   const directionalLight = useRef();
 
   const modelRef = useRef();
-  useFrame((frame, delta) => {
-    modelRef.current.rotation.y += delta * 0.1;
 
+  const { scene } = useThree();
+
+  useFrame((frame, delta) => {
+    setTimeout(() => {
+      modelRef.current.rotation.y += delta * 0.1;
+    }, 2500);
   });
+
   const { showPerf } = useControls("Performance", {
     showPerf: false,
   });

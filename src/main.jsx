@@ -13,9 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       camera={{
         position: [0, 0, 3.5],
         fov: 50,
-
       }}
-      
     >
       <Show />
     </Canvas>
