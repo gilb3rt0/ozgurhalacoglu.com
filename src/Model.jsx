@@ -3,12 +3,12 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { Mesh, MeshStandardMaterial } from "three";
 
-const Model = ({ model, modelRef, surroundingControls }) => {
-  const { scene } = useGLTF(model);
+const Model = ({ modelControls, modelRef, surroundingControls }) => {
+  const { scene } = useGLTF(modelControls.model);
   const copy = useMemo(() => scene.clone(), [scene]);
   if (copy) {
     useFrame((frame, delta) => {
-      modelRef.current.rotation.y += delta * 0.1;
+      modelRef.current.rotation.y += delta * modelControls.rotation;
     });
   }
   useEffect(() => {
@@ -26,7 +26,7 @@ const Model = ({ model, modelRef, surroundingControls }) => {
     <primitive
       object={copy}
       ref={modelRef}
-      scale={model.includes("glb") ? 3 : 1}
+      scale={modelControls.model.includes("glb") ? 3 : 1}
     />
   );
 };

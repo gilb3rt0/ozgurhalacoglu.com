@@ -14,13 +14,10 @@ const Show = () => {
 
   const modelRef = useRef();
 
-
-
-
   const { showPerf } = useControls("Performance", {
     showPerf: false,
   });
-  const { model } = useControls("model", {
+  const modelControls = useControls("model", {
     model: {
       options: [
         "/models/dress.glb",
@@ -28,6 +25,11 @@ const Show = () => {
         "/models/dress.gltf",
         "/models/tracksuit.gltf",
       ],
+    },
+    rotation: {
+      value: 0.1,
+      min: -5,
+      max: 5,
     },
   });
   const surroundingControls = useControls("surrounding", {
@@ -119,7 +121,7 @@ const Show = () => {
       <mesh castShadow position={[0, -1, 0]}>
         <Suspense fallback={<Loading />}>
           <Model
-            model={model}
+            modelControls={modelControls}
             modelRef={modelRef}
             surroundingControls={surroundingControls}
           />
