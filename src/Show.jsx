@@ -7,13 +7,16 @@ import { Perf } from "r3f-perf";
 import Model from "./Model";
 import Loading from "./Loading";
 import Background from "./Background";
-import { useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 
 const Show = () => {
   const directionalLight = useRef();
 
   const modelRef = useRef();
+  useFrame((frame, delta) => {
+    modelRef.current.rotation.y += delta * 0.1;
 
+  });
   const { showPerf } = useControls("Performance", {
     showPerf: false,
   });
@@ -28,7 +31,7 @@ const Show = () => {
     },
   });
   const surroundingControls = useControls("surrounding", {
-    On: true,
+    On: false,
     map: {
       options: [
         "/envMaps/bank_vault_4k.hdr",
@@ -52,9 +55,9 @@ const Show = () => {
     },
     position: {
       value: {
-        x: 0,
-        y: 1,
-        z: 2,
+        x: 1,
+        y: 2,
+        z: 3,
       },
     },
     color: "#fff",
@@ -81,12 +84,19 @@ const Show = () => {
           directionalLightControls.position.y,
           directionalLightControls.position.z,
         ]}
-        shadow-mapSize={[1024, 1024]}
         intensity={directionalLightControls.intensity}
         color={directionalLightControls.color}
         castShadow
-        shadow-mapSize-height={512}
-        shadow-mapSize-width={512}
+        shadow-mapSize={[1024 * 2, 1024 * 2]}
+        shadow-camera-near={1}
+        shadow-camera-far={10}
+        shadow-camera-top={8}
+        shadow-camera-right={8}
+        shadow-camera-bottom={-8}
+        shadow-camera-left={-8}
+        // shadow={{
+        //   mapSize: [2048, 2048],
+        // }}
       />
       <ambientLight
         color={ambientLightControls.color}
@@ -115,7 +125,9 @@ const Show = () => {
           />
         </Suspense>
         <Suspense fallback={<Loading />}>
-          {surroundingControls.On && <Background surroundingControls={surroundingControls} />}
+          {surroundingControls.On && (
+            <Background surroundingControls={surroundingControls} />
+          )}
         </Suspense>
       </mesh>
     </>
