@@ -2,10 +2,23 @@ import React, { useMemo } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Loader, useGLTF } from "@react-three/drei";
+import { Mesh, MeshStandardMaterial } from "three";
 
-const Model = ({ model, modelRef }) => {
+const Model = ({ model, modelRef, surroundingControls }) => {
   const { scene } = useGLTF(model);
   const copy = useMemo(() => scene.clone(), [scene]);
+  copy.traverse((obj) => {
+    if (obj instanceof Mesh) {
+      obj.castShadow = true;
+      obj.receiveShadow = true
+    } else if (obj instanceof MeshStandardMaterial){
+       return obj.envMapIntensity = surroundingControls.intensity
+    }
+  });
+console.log(copy);
+console.log(surroundingControls.intensity);
+
+
   return (
     <primitive
       object={copy}

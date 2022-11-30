@@ -1,7 +1,7 @@
 import React from "react";
 import { Environment } from "@react-three/drei";
-const Background = ({surrounding}) => {
-  return <Environment background={true} files={surrounding} intensity={0.5} />;
+const Background = ({ surroundingControls }) => {
+  return <Environment background={surroundingControls.visibility} files={surroundingControls.map} />;
 };
 
 export default Background;

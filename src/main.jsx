@@ -7,13 +7,15 @@ import { Leva } from "leva";
 import "./main.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Leva collapsed/>
+    <Leva collapsed />
     <Canvas
       shadows
       camera={{
         position: [0, 0, 3.5],
         fov: 50,
+
       }}
+      
     >
       <Show />
     </Canvas>
